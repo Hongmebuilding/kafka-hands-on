@@ -1,6 +1,6 @@
 import socket
 
-request_hex = "00000023001200046f7fc66100096b61666b612d636c69000a6b61666b612d636c6904302e3100"
+request_hex = "000000230012674a4f74d28b00096b61666b612d636c69000a6b61666b612d636c6904302e3100"
 request_bytes = bytes.fromhex(request_hex)
 
 print("connecting...")
