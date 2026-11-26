@@ -17,13 +17,18 @@ public class Main {
 
       clientSocket = serverSocket.accept();
 
-      // 요청을 읽어준다 (파싱은 안 해도 됨, 그냥 읽기만)
       InputStream in = clientSocket.getInputStream();
       byte[] buffer = new byte[1024];
       in.read(buffer);
 
+      // correlation_id는 요청의 8~11번째 바이트 (4바이트)
+      byte[] correlationId = new byte[4];
+      System.arraycopy(buffer, 8, correlationId, 0, 4);
+
       OutputStream out = clientSocket.getOutputStream();
-      out.write(new byte[] {0, 0, 0, 0, 0, 0, 0, 7});
+      // message_size(4바이트, 값은 아무거나) + correlation_id(요청에서 읽은 값)
+      out.write(new byte[] {0, 0, 0, 0});
+      out.write(correlationId);
       out.flush();
     } catch (IOException e) {
       System.out.println("IOException: " + e.getMessage());
